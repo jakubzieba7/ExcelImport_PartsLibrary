@@ -55,7 +55,7 @@ namespace ExcelImport_PartsLibrary
         {
             get
             {
-                return "SN C# Plugin";
+                return "Parts Library Excel Import";
             }
         }
 
@@ -67,7 +67,7 @@ namespace ExcelImport_PartsLibrary
         {
             get
             {
-                return "This is a template for a SIGMANEST C# Plugin.";
+                return "Plugin imports parts names from Excel, seeking for them in SN Part Library, imports to SN workspace and change their quantity.";
             }
         }
 
@@ -79,7 +79,7 @@ namespace ExcelImport_PartsLibrary
         {
             get
             {
-                return "Author Name";
+                return "Jakub Zięba";
             }
         }
 
