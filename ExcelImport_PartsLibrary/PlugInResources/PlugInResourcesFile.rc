@@ -1,0 +1,29 @@
+// ** Notes : John White Rautenbach
+// ** This SCRIPS is used to DEFINE all that you want to add to your PLUGIN Resource file.
+// ** !!! Remember - After Changes are made here USE the "Compile Resource Definition into RES FILE.bat" to RE-COMPILE your "DeveloperPlugInResources.res" resource file
+// ** !!! Remember - The DLL MUST be set up to IN-COMPILE the "DeveloperPlugInResources.res" for any of this to take effect
+
+// ** All Entries must ALWAYS come in the following Format
+// ** ENTRY - [A] [B] [C] 
+//	** 		A - Resource NAME - MUST BE UNIQUE for every Resource added to the Resource File.
+//	** 		B - Resource TYPE 
+// ** 		C - Name of the file that will be put into the resource file
+
+// ** PLUGIN ICON ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ** THIS Resource can be inserted into the RES file to dictate the Icon for you PLUGIN
+// ** A	       B      "C"
+PlugInIcon PNG "PlugInICON.PNG"
+
+// ** DEFAULT INI FILE ----------------------------------------------------------------------------------------------------------------------------------------------------------
+// ** If you want to distribute your Plugin With a DEFAULT INI file define and add the ini file here
+// ** If SN Find this resource it will extract this INI FILE - !!! SN WILL RENAME IT TO YOUR PLUGIN'S DEFAULT Ini File !!! and put it in the PLUGIN Config Folder
+// ** 		This Action will only be performed if NO Default Ini File for the PlugIn Exists
+// ** A	            B    "C"
+DefaultINIFile INI "PlugInINIFile.INI"
+
+// ** DEFAULT XML FILE ----------------------------------------------------------------------------------------------------------------------------------------------------------
+// ** If you want to distribute your Plugin With a DEFAULT XML file define and add the XML file here
+// ** If SN Find this resource it will extract this XML FILE - !!! SN WILL RENAME IT TO YOUR PLUGIN'S DEFAULT XML File !!! and put it in the PLUGIN Config Folder
+// ** 		This Action will only be performed if NO Default XML File for the PlugIn Exists
+// ** A	                B    "C"
+//DefaultXMLFile XML "TemplateXMLFile.XML"
