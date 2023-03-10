@@ -55,7 +55,7 @@ namespace ExcelImport_PartsLibrary
         {
             get
             {
-                return "Parts Library Excel Import";
+                return "Import Excel z Bazy Części";
             }
         }
 
@@ -148,21 +148,21 @@ namespace ExcelImport_PartsLibrary
                     break;
                 case SNPlugInIntTypes.ButtonLocation_WorkSpace: { BtnLocation = true; };
                     break;
-                case SNPlugInIntTypes.ButtonLocation_CAD: { BtnLocation = true; };
+                case SNPlugInIntTypes.ButtonLocation_CAD: { BtnLocation = false; };
                     break;
-                case SNPlugInIntTypes.ButtonLocation_NestingManual: { BtnLocation = true; };
+                case SNPlugInIntTypes.ButtonLocation_NestingManual: { BtnLocation = false; };
                     break;
-                case SNPlugInIntTypes.ButtonLocation_NestingNC: { BtnLocation = true; };
+                case SNPlugInIntTypes.ButtonLocation_NestingNC: { BtnLocation = false; };
                     break;
-                case SNPlugInIntTypes.ButtonLocation_NestingDetail: { BtnLocation = true; };
+                case SNPlugInIntTypes.ButtonLocation_NestingDetail: { BtnLocation = false; };
                     break;
-                case SNPlugInIntTypes.ButtonLocation_PartMode: { BtnLocation = true; };
+                case SNPlugInIntTypes.ButtonLocation_PartMode: { BtnLocation = false; };
                     break;
-                case SNPlugInIntTypes.ButtonLocation_PartModeDetail: { BtnLocation = true; };
+                case SNPlugInIntTypes.ButtonLocation_PartModeDetail: { BtnLocation = false; };
                     break;
-                case SNPlugInIntTypes.ButtonLocation_Help: { BtnLocation = true; };
+                case SNPlugInIntTypes.ButtonLocation_Help: { BtnLocation = false; };
                     break;
-                case SNPlugInIntTypes.ButtonLocation_Modify: { BtnLocation = true; };
+                case SNPlugInIntTypes.ButtonLocation_Modify: { BtnLocation = false; };
                     break;
                 default:
                     { BtnLocation = false; };
@@ -181,7 +181,7 @@ namespace ExcelImport_PartsLibrary
         {
             get
             {
-                return true;
+                return false;
             }
         }
 
@@ -210,11 +210,11 @@ namespace ExcelImport_PartsLibrary
         /// <param name="AParameters">optional parameters passed in through batch commands.</param>
         public override void Configure([MarshalAs(UnmanagedType.LPWStr)] string AParameters)
         {
-            // This is an example config dialog that writes to an INI file
-            IniFile iniFile = new IniFile(GetConfigFile_PathNameExt("INI", 0));
-            frmConfig FormConfig = new frmConfig(SNApp, iniFile);
-            FormConfig.ShowDialog();
-            FormConfig.Dispose();
+            //// This is an example config dialog that writes to an INI file
+            //IniFile iniFile = new IniFile(GetConfigFile_PathNameExt("INI", 0));
+            //frmConfig FormConfig = new frmConfig(SNApp, iniFile);
+            //FormConfig.ShowDialog();
+            //FormConfig.Dispose();
         }
 
         /// <summary>
@@ -226,9 +226,9 @@ namespace ExcelImport_PartsLibrary
         public override void Execute([MarshalAs(UnmanagedType.LPWStr)] string AParameters)
         {
             // This is an example execution dialog that has some example functions
-            frmExecute FormExecute = new frmExecute(SNApp);
+            AddExcelData FormExecute = new AddExcelData(SNApp);
             FormExecute.ShowDialog();
-            FormExecute.Dispose();
+            //FormExecute.Dispose();
         }
 
         #endregion
@@ -579,11 +579,11 @@ namespace ExcelImport_PartsLibrary
         /// Called when a part is saved.
         /// </summary>
         /// <param name="APart">a part.</param>
-        [DllExport("OnPartSave", CallingConvention.StdCall)]
-        public static void OnPartSave(ISNPartObj APart)
-        {
-            GSNPlugInHandle2.OnPartSave(APart);
-        }
+        //[DllExport("OnPartSave", CallingConvention.StdCall)]
+        //public static void OnPartSave(ISNPartObj APart)
+        //{
+        //    GSNPlugInHandle2.OnPartSave(APart);
+        //}
 
         ///// <summary>
         ///// Before the part is saved.
