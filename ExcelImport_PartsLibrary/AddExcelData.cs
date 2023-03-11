@@ -89,6 +89,8 @@ namespace SNPlugin
             Excel.Workbook excelWorkbook = excelApp.Workbooks.Open(excelFilePath);
             Excel.Worksheet excelWorksheet = excelWorkbook.Sheets[SelectedSheetListIndex() + 1];
 
+            List<PartExcel> partList = new List<PartExcel>();
+
             DataTable dt = new DataTable();
             Excel.Range firstFilledCell = null;
 
@@ -136,6 +138,13 @@ namespace SNPlugin
                     if (rowIndexer != 1)
                     {
                         dt.Rows.Add(row);
+
+                        var part = new PartExcel();
+                        part.Id = rowIndexer - 1;
+                        part.Name = excelWorksheet.Cells[i, firstFilledColumn].Value;
+                        //part.Quantity = int.TryParse(excelWorksheet.Cells[i, firstFilledColumn + 1].Value, out int quantity) == true ? Convert.ToInt32(excelWorksheet.Cells[i, firstFilledColumn + 1].Value) : quantity;
+                        part.Quantity = Convert.ToInt32(excelWorksheet.Cells[i, firstFilledColumn + 1].Value);
+                        partList.Add(part);
                     }
                 }
             }
