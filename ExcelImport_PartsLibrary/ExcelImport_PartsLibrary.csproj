@@ -171,6 +171,7 @@
     <Compile Include="frmExecute.Designer.cs">
       <DependentUpon>frmExecute.cs</DependentUpon>
     </Compile>
+    <Compile Include="PartLibrary.cs" />
     <Compile Include="SigmaNESTPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

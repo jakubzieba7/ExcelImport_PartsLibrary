@@ -82,6 +82,10 @@ namespace SNPlugin
         public void ExcelDataLoad(string excelFilePath)
         {
             Excel.Application excelApp = new Excel.Application();
+
+            //Type excelType = Type.GetTypeFromProgID("Excel.Application");
+            //dynamic excelApp = Activator.CreateInstance(excelType);
+
             Excel.Workbook excelWorkbook = excelApp.Workbooks.Open(excelFilePath);
             Excel.Worksheet excelWorksheet = excelWorkbook.Sheets[SelectedSheetListIndex() + 1];
 
@@ -111,7 +115,6 @@ namespace SNPlugin
                 int firstFilledRow = firstFilledCell.Row;
                 int firstFilledColumn = firstFilledCell.Column;
                 int rowIndexer = 0;
-                int columnIndexer = 0;
 
                 for (int i = firstFilledRow; i <= firstFilledRow + excelWorksheet.UsedRange.Rows.Count - 1; i++)
                 {
@@ -120,7 +123,6 @@ namespace SNPlugin
 
                     for (int j = firstFilledColumn; j <= firstFilledColumn + excelWorksheet.UsedRange.Columns.Count - 1; j++)
                     {
-                        columnIndexer++;
                         if (rowIndexer == 1)
                         {
                             dt.Columns.Add(excelWorksheet.Cells[i, j].Value.ToString());
@@ -138,7 +140,6 @@ namespace SNPlugin
                 }
             }
             dgvExcelData.DataSource = dt;
-
 
             excelWorkbook.Close();
             excelApp.Quit();
@@ -191,9 +192,7 @@ namespace SNPlugin
 
         private void FillSheetsList(Excel.Workbook workbook)
         {
-
-            cbEcelListSheets.DataSource = workbook.Worksheets.OfType<Excel.Worksheet>().Select(x => x.Name).ToList();
-
+            cbEcelListSheets.DataSource = workbook.Worksheets.OfType<Excel.Worksheet>().Select(x=>x.Name).ToList();
         }
 
         private int _selectedSheetListIndex;
@@ -202,5 +201,40 @@ namespace SNPlugin
             return _selectedSheetListIndex = cbEcelListSheets.SelectedIndex;
         }
 
+        private void bBrowsePartsLibrary_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folder = new FolderBrowserDialog();
+
+            if (folder.ShowDialog() == DialogResult.OK)
+            {
+                //tbSelectedPartsLibraryPath.Text = folder.SelectedPath;
+                tbSelectedPartsLibraryPath.Text = @"C:\Users\Public\Documents\SNDATA\PARTS";
+            }
+        }
+
+        private void bLoadParts_Click(object sender, EventArgs e)
+        {
+            List<string> partsNames = GetAllFiles(tbSelectedPartsLibraryPath.Text).ToList();
+            int indexer = 0;
+            List<PartLibrary> partList = new List<PartLibrary>();
+
+            foreach (string partname in partsNames)
+            {
+                indexer++;
+                var part = new PartLibrary();
+                part.Id = indexer;
+                part.Name = partname;
+                part.Path = partname;
+                partList.Add(part);
+            }
+
+            dgvExcelData.DataSource = partList;
+        }
+
+        public static List<String> GetAllFiles(String directory)
+        {
+            return Directory.EnumerateFiles(directory, "*.prs", SearchOption.AllDirectories).ToList();
+            //return Directory.EnumerateDirectories(directory, "*", SearchOption.AllDirectories).ToList();
+        }
     }
 }

@@ -35,6 +35,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cbEcelListSheets = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.bBrowsePartsLibrary = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.bLoadParts = new System.Windows.Forms.Button();
+            this.tbSelectedPartsLibraryPath = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvExcelData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,7 +56,7 @@
             // 
             this.bBrowseExcelFiles.Location = new System.Drawing.Point(12, 24);
             this.bBrowseExcelFiles.Name = "bBrowseExcelFiles";
-            this.bBrowseExcelFiles.Size = new System.Drawing.Size(100, 23);
+            this.bBrowseExcelFiles.Size = new System.Drawing.Size(127, 23);
             this.bBrowseExcelFiles.TabIndex = 1;
             this.bBrowseExcelFiles.Text = "Wyszukaj Excel";
             this.bBrowseExcelFiles.UseVisualStyleBackColor = true;
@@ -64,23 +68,23 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvExcelData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvExcelData.Location = new System.Drawing.Point(0, 81);
+            this.dgvExcelData.Location = new System.Drawing.Point(0, 97);
             this.dgvExcelData.Name = "dgvExcelData";
             this.dgvExcelData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvExcelData.Size = new System.Drawing.Size(800, 369);
+            this.dgvExcelData.Size = new System.Drawing.Size(800, 353);
             this.dgvExcelData.TabIndex = 3;
             // 
             // tbSelectedExcelPath
             // 
-            this.tbSelectedExcelPath.Location = new System.Drawing.Point(136, 27);
+            this.tbSelectedExcelPath.Location = new System.Drawing.Point(157, 27);
             this.tbSelectedExcelPath.Name = "tbSelectedExcelPath";
-            this.tbSelectedExcelPath.Size = new System.Drawing.Size(410, 20);
+            this.tbSelectedExcelPath.Size = new System.Drawing.Size(389, 20);
             this.tbSelectedExcelPath.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(136, 8);
+            this.label1.Location = new System.Drawing.Point(154, 7);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 13);
             this.label1.TabIndex = 5;
@@ -104,11 +108,51 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Wskaż arkusz";
             // 
+            // bBrowsePartsLibrary
+            // 
+            this.bBrowsePartsLibrary.Location = new System.Drawing.Point(13, 54);
+            this.bBrowsePartsLibrary.Name = "bBrowsePartsLibrary";
+            this.bBrowsePartsLibrary.Size = new System.Drawing.Size(126, 23);
+            this.bBrowsePartsLibrary.TabIndex = 8;
+            this.bBrowsePartsLibrary.Text = "Wyszukaj Bazę Części";
+            this.bBrowsePartsLibrary.UseVisualStyleBackColor = true;
+            this.bBrowsePartsLibrary.Click += new System.EventHandler(this.bBrowsePartsLibrary_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(698, 53);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 9;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // bLoadParts
+            // 
+            this.bLoadParts.Location = new System.Drawing.Point(575, 53);
+            this.bLoadParts.Name = "bLoadParts";
+            this.bLoadParts.Size = new System.Drawing.Size(103, 23);
+            this.bLoadParts.TabIndex = 10;
+            this.bLoadParts.Text = "Wczytaj Części";
+            this.bLoadParts.UseVisualStyleBackColor = true;
+            this.bLoadParts.Click += new System.EventHandler(this.bLoadParts_Click);
+            // 
+            // tbSelectedPartsLibraryPath
+            // 
+            this.tbSelectedPartsLibraryPath.Location = new System.Drawing.Point(157, 56);
+            this.tbSelectedPartsLibraryPath.Name = "tbSelectedPartsLibraryPath";
+            this.tbSelectedPartsLibraryPath.Size = new System.Drawing.Size(389, 20);
+            this.tbSelectedPartsLibraryPath.TabIndex = 11;
+            // 
             // AddExcelData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.tbSelectedPartsLibraryPath);
+            this.Controls.Add(this.bLoadParts);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.bBrowsePartsLibrary);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cbEcelListSheets);
             this.Controls.Add(this.label1);
@@ -133,5 +177,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbEcelListSheets;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button bBrowsePartsLibrary;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button bLoadParts;
+        private System.Windows.Forms.TextBox tbSelectedPartsLibraryPath;
     }
 }
