@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SNPlugin
 {
-    internal class PartLibrary
+    public class PartLibrary
     {
         public int Id { get; set; }
         public string Name { get; set; }

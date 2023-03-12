@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SNPlugin
 {
-    internal class PartExcel
+    public class PartExcel
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -36,10 +36,12 @@
             this.cbEcelListSheets = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.bBrowsePartsLibrary = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.bCompareParts = new System.Windows.Forms.Button();
             this.bLoadParts = new System.Windows.Forms.Button();
             this.tbSelectedPartsLibraryPath = new System.Windows.Forms.TextBox();
+            this.dgvPartsLibraryData = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvExcelData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPartsLibraryData)).BeginInit();
             this.SuspendLayout();
             // 
             // btnLoadExcelFile
@@ -71,7 +73,7 @@
             this.dgvExcelData.Location = new System.Drawing.Point(0, 97);
             this.dgvExcelData.Name = "dgvExcelData";
             this.dgvExcelData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvExcelData.Size = new System.Drawing.Size(800, 353);
+            this.dgvExcelData.Size = new System.Drawing.Size(398, 353);
             this.dgvExcelData.TabIndex = 3;
             // 
             // tbSelectedExcelPath
@@ -118,14 +120,14 @@
             this.bBrowsePartsLibrary.UseVisualStyleBackColor = true;
             this.bBrowsePartsLibrary.Click += new System.EventHandler(this.bBrowsePartsLibrary_Click);
             // 
-            // button2
+            // bCompareParts
             // 
-            this.button2.Location = new System.Drawing.Point(698, 53);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            this.bCompareParts.Location = new System.Drawing.Point(698, 53);
+            this.bCompareParts.Name = "bCompareParts";
+            this.bCompareParts.Size = new System.Drawing.Size(75, 23);
+            this.bCompareParts.TabIndex = 9;
+            this.bCompareParts.Text = "Porównaj części";
+            this.bCompareParts.UseVisualStyleBackColor = true;
             // 
             // bLoadParts
             // 
@@ -144,14 +146,23 @@
             this.tbSelectedPartsLibraryPath.Size = new System.Drawing.Size(389, 20);
             this.tbSelectedPartsLibraryPath.TabIndex = 11;
             // 
+            // dgvPartsLibraryData
+            // 
+            this.dgvPartsLibraryData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvPartsLibraryData.Location = new System.Drawing.Point(405, 97);
+            this.dgvPartsLibraryData.Name = "dgvPartsLibraryData";
+            this.dgvPartsLibraryData.Size = new System.Drawing.Size(396, 353);
+            this.dgvPartsLibraryData.TabIndex = 12;
+            // 
             // AddExcelData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.dgvPartsLibraryData);
             this.Controls.Add(this.tbSelectedPartsLibraryPath);
             this.Controls.Add(this.bLoadParts);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.bCompareParts);
             this.Controls.Add(this.bBrowsePartsLibrary);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cbEcelListSheets);
@@ -163,6 +174,7 @@
             this.Name = "AddExcelData";
             this.Text = "AddExcelData";
             ((System.ComponentModel.ISupportInitialize)(this.dgvExcelData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPartsLibraryData)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -178,8 +190,9 @@
         private System.Windows.Forms.ComboBox cbEcelListSheets;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button bBrowsePartsLibrary;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button bCompareParts;
         private System.Windows.Forms.Button bLoadParts;
         private System.Windows.Forms.TextBox tbSelectedPartsLibraryPath;
+        private System.Windows.Forms.DataGridView dgvPartsLibraryData;
     }
 }

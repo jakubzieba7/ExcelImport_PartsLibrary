@@ -89,7 +89,17 @@ namespace SNPlugin
             Excel.Workbook excelWorkbook = excelApp.Workbooks.Open(excelFilePath);
             Excel.Worksheet excelWorksheet = excelWorkbook.Sheets[SelectedSheetListIndex() + 1];
 
-            List<PartExcel> partList = new List<PartExcel>();
+            
+            dgvExcelData.DataSource = CreateExcelPartList(excelWorksheet);
+
+            excelWorkbook.Close();
+            excelApp.Quit();
+
+        }
+
+        private List<PartExcel> CreateExcelPartList(Excel.Worksheet excelWorksheet)
+        {
+            List<PartExcel> partExcelList = new List<PartExcel>();
 
             DataTable dt = new DataTable();
             Excel.Range firstFilledCell = null;
@@ -144,18 +154,15 @@ namespace SNPlugin
                         part.Name = excelWorksheet.Cells[i, firstFilledColumn].Value;
                         //part.Quantity = int.TryParse(excelWorksheet.Cells[i, firstFilledColumn + 1].Value, out int quantity) == true ? Convert.ToInt32(excelWorksheet.Cells[i, firstFilledColumn + 1].Value) : quantity;
                         part.Quantity = Convert.ToInt32(excelWorksheet.Cells[i, firstFilledColumn + 1].Value);
-                        partList.Add(part);
+                        partExcelList.Add(part);
                     }
                 }
             }
-            dgvExcelData.DataSource = dt;
-
-            excelWorkbook.Close();
-            excelApp.Quit();
-
+            //dgvExcelData.DataSource = dt;
+            return partExcelList;
         }
 
-        
+
         private void btnLoadExcelFile_Click(object sender, EventArgs e)
         {
             ExcelDataLoad(tbSelectedExcelPath.Text);
@@ -223,21 +230,7 @@ namespace SNPlugin
 
         private void bLoadParts_Click(object sender, EventArgs e)
         {
-            List<string> partsNames = GetAllFiles(tbSelectedPartsLibraryPath.Text).ToList();
-            int indexer = 0;
-            List<PartLibrary> partList = new List<PartLibrary>();
-
-            foreach (string partname in partsNames)
-            {
-                indexer++;
-                var part = new PartLibrary();
-                part.Id = indexer;
-                part.Name = partname;
-                part.Path = partname;
-                partList.Add(part);
-            }
-
-            dgvExcelData.DataSource = partList;
+            dgvPartsLibraryData.DataSource = CreatePartsLibraryList();
         }
 
         public static List<String> GetAllFiles(String directory)
@@ -245,5 +238,27 @@ namespace SNPlugin
             return Directory.EnumerateFiles(directory, "*.prs", SearchOption.AllDirectories).ToList();
             //return Directory.EnumerateDirectories(directory, "*", SearchOption.AllDirectories).ToList();
         }
+
+        private List<PartLibrary> CreatePartsLibraryList()
+        {
+            List<string> partsLibraryPathList = GetAllFiles(tbSelectedPartsLibraryPath.Text).ToList();
+            int indexer = 0;
+            List<PartLibrary> partList = new List<PartLibrary>();
+
+            foreach (string libraryPartPath in partsLibraryPathList)
+            {
+                int lastSlashIndex = libraryPartPath.LastIndexOf('\\');
+                indexer++;
+                var part = new PartLibrary();
+                part.Id = indexer;
+                part.Name = libraryPartPath.Substring(lastSlashIndex + 1, libraryPartPath.Length - lastSlashIndex - 5);
+                part.Path = libraryPartPath;
+
+                partList.Add(part);
+            }
+            return partList;
+        }
+
+
     }
 }
