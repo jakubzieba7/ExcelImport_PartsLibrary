@@ -48,7 +48,7 @@
             // 
             this.btnLoadExcelFile.Location = new System.Drawing.Point(698, 24);
             this.btnLoadExcelFile.Name = "btnLoadExcelFile";
-            this.btnLoadExcelFile.Size = new System.Drawing.Size(90, 23);
+            this.btnLoadExcelFile.Size = new System.Drawing.Size(103, 23);
             this.btnLoadExcelFile.TabIndex = 0;
             this.btnLoadExcelFile.Text = "Wczytaj Excel";
             this.btnLoadExcelFile.UseVisualStyleBackColor = true;
@@ -73,7 +73,7 @@
             this.dgvExcelData.Location = new System.Drawing.Point(0, 97);
             this.dgvExcelData.Name = "dgvExcelData";
             this.dgvExcelData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvExcelData.Size = new System.Drawing.Size(398, 353);
+            this.dgvExcelData.Size = new System.Drawing.Size(390, 353);
             this.dgvExcelData.TabIndex = 3;
             // 
             // tbSelectedExcelPath
@@ -124,7 +124,7 @@
             // 
             this.bCompareParts.Location = new System.Drawing.Point(698, 53);
             this.bCompareParts.Name = "bCompareParts";
-            this.bCompareParts.Size = new System.Drawing.Size(75, 23);
+            this.bCompareParts.Size = new System.Drawing.Size(103, 23);
             this.bCompareParts.TabIndex = 9;
             this.bCompareParts.Text = "Porównaj części";
             this.bCompareParts.UseVisualStyleBackColor = true;
@@ -149,16 +149,16 @@
             // dgvPartsLibraryData
             // 
             this.dgvPartsLibraryData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPartsLibraryData.Location = new System.Drawing.Point(405, 97);
+            this.dgvPartsLibraryData.Location = new System.Drawing.Point(396, 97);
             this.dgvPartsLibraryData.Name = "dgvPartsLibraryData";
-            this.dgvPartsLibraryData.Size = new System.Drawing.Size(396, 353);
+            this.dgvPartsLibraryData.Size = new System.Drawing.Size(424, 353);
             this.dgvPartsLibraryData.TabIndex = 12;
             // 
             // AddExcelData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(820, 450);
             this.Controls.Add(this.dgvPartsLibraryData);
             this.Controls.Add(this.tbSelectedPartsLibraryPath);
             this.Controls.Add(this.bLoadParts);

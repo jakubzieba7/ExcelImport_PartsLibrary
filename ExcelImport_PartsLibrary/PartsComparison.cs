@@ -22,7 +22,7 @@ namespace SNPlugin
 
         public PartsComparison()
         {
-
+            InitializeComponent();
         }
         public PartsComparison(List<PartExcel> partsExcelList, List<PartLibrary> partsLibraryList)
         {
@@ -53,6 +53,28 @@ namespace SNPlugin
         private void bLoadPartsToSN_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void dgvPartsComparison_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvPartsComparison.Rows)
+            {
+                string valueToCompare = row.Cells[1].Value.ToString();
+                bool foundDuplicate = false;
+
+                foreach (DataGridViewRow nextRow in dgvPartsComparison.Rows)
+                {
+                    if (row.Index != nextRow.Index && nextRow.Cells[1].Value.ToString() == valueToCompare)
+                    {
+                        foundDuplicate = true;
+                        break;
+                    }
+                }
+                if (foundDuplicate)
+                {
+                    row.DefaultCellStyle.BackColor = Color.Yellow;
+                }
+            }
         }
     }
 }

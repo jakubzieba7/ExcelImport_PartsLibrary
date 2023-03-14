@@ -42,6 +42,7 @@
             this.dgvPartsComparison.Name = "dgvPartsComparison";
             this.dgvPartsComparison.Size = new System.Drawing.Size(508, 354);
             this.dgvPartsComparison.TabIndex = 0;
+            this.dgvPartsComparison.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvPartsComparison_DataBindingComplete);
             // 
             // bLoadPartsToSN
             // 
