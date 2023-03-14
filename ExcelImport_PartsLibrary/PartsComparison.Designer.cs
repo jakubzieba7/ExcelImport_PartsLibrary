@@ -38,15 +38,15 @@
             // dgvPartsComparison
             // 
             this.dgvPartsComparison.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPartsComparison.Location = new System.Drawing.Point(-1, 94);
+            this.dgvPartsComparison.Location = new System.Drawing.Point(-1, 57);
             this.dgvPartsComparison.Name = "dgvPartsComparison";
-            this.dgvPartsComparison.Size = new System.Drawing.Size(508, 354);
+            this.dgvPartsComparison.Size = new System.Drawing.Size(647, 391);
             this.dgvPartsComparison.TabIndex = 0;
             this.dgvPartsComparison.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvPartsComparison_DataBindingComplete);
             // 
             // bLoadPartsToSN
             // 
-            this.bLoadPartsToSN.Location = new System.Drawing.Point(352, 34);
+            this.bLoadPartsToSN.Location = new System.Drawing.Point(221, 12);
             this.bLoadPartsToSN.Name = "bLoadPartsToSN";
             this.bLoadPartsToSN.Size = new System.Drawing.Size(90, 23);
             this.bLoadPartsToSN.TabIndex = 1;
@@ -56,7 +56,7 @@
             // 
             // bRefreshPartsList
             // 
-            this.bRefreshPartsList.Location = new System.Drawing.Point(198, 34);
+            this.bRefreshPartsList.Location = new System.Drawing.Point(121, 12);
             this.bRefreshPartsList.Name = "bRefreshPartsList";
             this.bRefreshPartsList.Size = new System.Drawing.Size(75, 23);
             this.bRefreshPartsList.TabIndex = 2;
@@ -66,7 +66,7 @@
             // 
             // bDeletePart
             // 
-            this.bDeletePart.Location = new System.Drawing.Point(39, 34);
+            this.bDeletePart.Location = new System.Drawing.Point(21, 12);
             this.bDeletePart.Name = "bDeletePart";
             this.bDeletePart.Size = new System.Drawing.Size(75, 23);
             this.bDeletePart.TabIndex = 3;
@@ -78,7 +78,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(505, 450);
+            this.ClientSize = new System.Drawing.Size(647, 450);
             this.Controls.Add(this.bDeletePart);
             this.Controls.Add(this.bRefreshPartsList);
             this.Controls.Add(this.bLoadPartsToSN);

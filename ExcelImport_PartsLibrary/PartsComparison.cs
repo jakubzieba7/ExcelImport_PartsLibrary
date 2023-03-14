@@ -27,7 +27,38 @@ namespace SNPlugin
         public PartsComparison(List<PartExcel> partsExcelList, List<PartLibrary> partsLibraryList)
         {
             InitializeComponent();
+            InitializeDataGridView(partsLibraryList, partsExcelList);
+        }
+
+        private void InitializeDataGridView(List<PartLibrary> partsLibraryList, List<PartExcel> partsExcelList)
+        {
             dgvPartsComparison.DataSource = CreateComparedPartsList(partsLibraryList, partsExcelList);
+
+            // Set the column header style.
+            DataGridViewCellStyle columnHeaderStyle = new DataGridViewCellStyle();
+
+            columnHeaderStyle.BackColor = Color.Beige;
+            columnHeaderStyle.Font = new Font("Verdana", 10, FontStyle.Bold);
+            dgvPartsComparison.ColumnHeadersDefaultCellStyle = columnHeaderStyle;
+            dgvPartsComparison.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            //// Set the column header names.
+            //dgvPartsComparison.Columns[0].Name = "L.p.";
+            //dgvPartsComparison.Columns[1].Name = "Nazwa części";
+            //dgvPartsComparison.Columns[2].Name = "Lokalizacja";
+            //dgvPartsComparison.Columns[3].Name = "Ilość";
+
+            //this.dgvPartsComparison.AutoGenerateColumns = false;
+            //this.dgvPartsComparison.Columns.Add("Id", "L.p.");
+            //this.dgvPartsComparison.Columns.Add("Name", "Nazwa części");
+            //this.dgvPartsComparison.Columns.Add("Path", "Lokalizacja");
+            //this.dgvPartsComparison.Columns.Add("Quantity", "Ilość");
+
+            dgvPartsComparison.AutoResizeColumnHeadersHeight();
+            dgvPartsComparison.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders);
+            dgvPartsComparison.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgvPartsComparison.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvPartsComparison.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
         private List<PartsComparison> CreateComparedPartsList(List<PartLibrary> partsLibraryList, List<PartExcel> partsExcelList)
@@ -57,6 +88,11 @@ namespace SNPlugin
 
         private void dgvPartsComparison_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
+            for (int i = 4; i < dgvPartsComparison.Columns.Count; i++)
+            {
+                this.dgvPartsComparison.Columns[i].Visible = false;
+            }
+
             foreach (DataGridViewRow row in dgvPartsComparison.Rows)
             {
                 string valueToCompare = row.Cells[1].Value.ToString();

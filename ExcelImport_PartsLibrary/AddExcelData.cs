@@ -71,7 +71,6 @@ namespace SNPlugin
 
             if (firstFilledCell != null)
             {
-                // Get the row and column indexes of the first filled cell
                 int firstFilledRow = firstFilledCell.Row;
                 int firstFilledColumn = firstFilledCell.Column;
                 int rowIndexer = 0;
