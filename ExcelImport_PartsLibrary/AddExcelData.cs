@@ -206,5 +206,18 @@ namespace SNPlugin
             }
             return partList;
         }
+
+        private void bCompareParts_Click(object sender, EventArgs e)
+        {
+            Excel.Application excelApp = new Excel.Application();
+            Excel.Workbook excelWorkbook = excelApp.Workbooks.Open(tbSelectedExcelPath.Text);
+            Excel.Worksheet excelWorksheet = excelWorkbook.Sheets[SelectedSheetListIndex() + 1];
+
+            PartsComparison partsComparison = new PartsComparison(CreateExcelPartList(excelWorksheet), CreatePartsLibraryList());
+            partsComparison.ShowDialog();
+
+            excelWorkbook.Close();
+            excelApp.Quit();
+        }
     }
 }

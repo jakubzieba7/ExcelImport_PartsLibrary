@@ -128,6 +128,7 @@
             this.bCompareParts.TabIndex = 9;
             this.bCompareParts.Text = "Porównaj części";
             this.bCompareParts.UseVisualStyleBackColor = true;
+            this.bCompareParts.Click += new System.EventHandler(this.bCompareParts_Click);
             // 
             // bLoadParts
             // 
