@@ -32,6 +32,34 @@ namespace SNPlugin
 
         private void InitializeDataGridView(List<PartLibrary> partsLibraryList, List<PartExcel> partsExcelList)
         {
+
+            dgvPartsComparison.AutoGenerateColumns = false;
+
+            var column1 = new DataGridViewTextBoxColumn();
+            column1.HeaderText = "L.p.";
+            column1.Name = "Id";
+            column1.DataPropertyName = "Id";
+
+            var column2 = new DataGridViewTextBoxColumn();
+            column2.HeaderText = "Nazwa części";
+            column2.Name = "PartName";
+            column2.DataPropertyName = "PartName";
+
+            var column3 = new DataGridViewTextBoxColumn();
+            column3.HeaderText = "Lokalizacja";
+            column3.Name = "Path";
+            column3.DataPropertyName = "Path";
+
+            var column4 = new DataGridViewTextBoxColumn();
+            column4.HeaderText = "Ilość";
+            column4.Name = "Quantity";
+            column4.DataPropertyName = "Quantity";
+
+            dgvPartsComparison.Columns.Add(column1);
+            dgvPartsComparison.Columns.Add(column2);
+            dgvPartsComparison.Columns.Add(column3);
+            dgvPartsComparison.Columns.Add(column4);
+
             dgvPartsComparison.DataSource = CreateComparedPartsList(partsLibraryList, partsExcelList);
 
             // Set the column header style.
@@ -43,17 +71,12 @@ namespace SNPlugin
             dgvPartsComparison.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             //// Set the column header names.
-            //dgvPartsComparison.Columns[0].Name = "L.p.";
-            //dgvPartsComparison.Columns[1].Name = "Nazwa części";
-            //dgvPartsComparison.Columns[2].Name = "Lokalizacja";
-            //dgvPartsComparison.Columns[3].Name = "Ilość";
+            //dgvPartsComparison.Columns[0].HeaderText = "L.p.";
+            //dgvPartsComparison.Columns[1].HeaderText = "Nazwa części";
+            //dgvPartsComparison.Columns[2].HeaderText = "Lokalizacja";
+            //dgvPartsComparison.Columns[3].HeaderText = "Ilość";
 
-            //this.dgvPartsComparison.AutoGenerateColumns = false;
-            //this.dgvPartsComparison.Columns.Add("Id", "L.p.");
-            //this.dgvPartsComparison.Columns.Add("Name", "Nazwa części");
-            //this.dgvPartsComparison.Columns.Add("Path", "Lokalizacja");
-            //this.dgvPartsComparison.Columns.Add("Quantity", "Ilość");
-
+            // Set the column and row resizing and alignment
             dgvPartsComparison.AutoResizeColumnHeadersHeight();
             dgvPartsComparison.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders);
             dgvPartsComparison.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
@@ -88,10 +111,10 @@ namespace SNPlugin
 
         private void dgvPartsComparison_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            for (int i = 4; i < dgvPartsComparison.Columns.Count; i++)
-            {
-                this.dgvPartsComparison.Columns[i].Visible = false;
-            }
+            //for (int i = 4; i < dgvPartsComparison.Columns.Count; i++)
+            //{
+            //    this.dgvPartsComparison.Columns[i].Visible = false;
+            //}
 
             foreach (DataGridViewRow row in dgvPartsComparison.Rows)
             {
