@@ -32,15 +32,16 @@
             this.bLoadPartsToSN = new System.Windows.Forms.Button();
             this.bRefreshPartsList = new System.Windows.Forms.Button();
             this.bDeletePart = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPartsComparison)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvPartsComparison
             // 
             this.dgvPartsComparison.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPartsComparison.Location = new System.Drawing.Point(-1, 57);
+            this.dgvPartsComparison.Location = new System.Drawing.Point(-1, 74);
             this.dgvPartsComparison.Name = "dgvPartsComparison";
-            this.dgvPartsComparison.Size = new System.Drawing.Size(647, 391);
+            this.dgvPartsComparison.Size = new System.Drawing.Size(647, 374);
             this.dgvPartsComparison.TabIndex = 0;
             this.dgvPartsComparison.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvPartsComparison_DataBindingComplete);
             // 
@@ -74,11 +75,19 @@
             this.bDeletePart.UseVisualStyleBackColor = true;
             this.bDeletePart.Click += new System.EventHandler(this.bDeletePart_Click);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(21, 53);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(290, 11);
+            this.progressBar1.TabIndex = 4;
+            // 
             // PartsComparison
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(647, 450);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.bDeletePart);
             this.Controls.Add(this.bRefreshPartsList);
             this.Controls.Add(this.bLoadPartsToSN);
@@ -96,5 +105,6 @@
         private System.Windows.Forms.Button bLoadPartsToSN;
         private System.Windows.Forms.Button bRefreshPartsList;
         private System.Windows.Forms.Button bDeletePart;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }

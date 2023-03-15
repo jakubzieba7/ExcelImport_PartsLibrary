@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SigmaNEST;
 
 namespace SNPlugin
 {
@@ -20,14 +21,26 @@ namespace SNPlugin
         List<PartLibrary> newPartLibraryList = new List<PartLibrary>();
         List<PartsComparison> partsComparedList = new List<PartsComparison>();
 
-        public PartsComparison()
+        ISNApp FSNApp;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="frmExecute"/> class.
+        /// </summary>
+        /// <param name="ASNApp">The SN application.</param>
+        //public PartsComparison()
+        //{
+        //    InitializeComponent();
+        //}
+        public PartsComparison(ISNApp ASNApp)
         {
             InitializeComponent();
+            FSNApp = ASNApp;
         }
-        public PartsComparison(List<PartExcel> partsExcelList, List<PartLibrary> partsLibraryList)
+        public PartsComparison(List<PartExcel> partsExcelList, List<PartLibrary> partsLibraryList, ISNApp ASNApp)
         {
             InitializeComponent();
             InitializeDataGridView(partsLibraryList, partsExcelList);
+            FSNApp = ASNApp;
         }
 
         private void InitializeDataGridView(List<PartLibrary> partsLibraryList, List<PartExcel> partsExcelList)
@@ -88,7 +101,7 @@ namespace SNPlugin
         {
             int indexer = 1;
             newPartLibraryList = partsLibraryList.Where(x => partsExcelList.Any(y => y.Name == x.Name)).OrderBy(x => x.Name).Cast<PartLibrary>().ToList();
-            partsComparedList = newPartLibraryList.Join(partsExcelList, pL => pL.Name, pE => pE.Name, (pL, pE) => new { pL.Id, pL.Name, pL.Path, pE.Quantity }).Select(x => new PartsComparison { Id = indexer++, PartName = x.Name, Path = x.Path, Quantity = x.Quantity })
+            partsComparedList = newPartLibraryList.Join(partsExcelList, pL => pL.Name, pE => pE.Name, (pL, pE) => new { pL.Id, pL.Name, pL.Path, pE.Quantity }).Select(x => new PartsComparison(FSNApp) { Id = indexer++, PartName = x.Name, Path = x.Path, Quantity = x.Quantity })
                 .ToList();
 
             return partsComparedList;
@@ -106,7 +119,53 @@ namespace SNPlugin
 
         private void bLoadPartsToSN_Click(object sender, EventArgs e)
         {
+            FSNApp.ExecuteBatchCommand("SET, SILENTMODE, ON");
+            FSNApp.ExecuteBatchCommand("CLEARWS");
 
+            string partname, quantity, filepath;
+
+            progressBar1.Maximum = dgvPartsComparison.RowCount;
+            progressBar1.Step = 1;
+            progressBar1.Value = 0;
+
+            for (int rowIndex = 0; rowIndex < dgvPartsComparison.RowCount; rowIndex++)
+            {
+                // Load leadins from leadin table
+                FSNApp.ExecuteBatchCommand("SET,LOOKUP,MAT");
+
+                partname = dgvPartsComparison.Rows[rowIndex].Cells[1].Value.ToString();
+                quantity = dgvPartsComparison.Rows[rowIndex].Cells[2].Value.ToString();
+                filepath = dgvPartsComparison.Rows[rowIndex].Cells[3].Value.ToString();
+
+                string wol = "LOAD,PART," + quantity + "," + filepath ; 
+                
+                FSNApp.ExecuteBatchCommand(wol);
+
+                if (FSNApp.PartsList.Count == 0)
+                {
+                    dgvPartsComparison.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
+                }
+
+                for (int i = 0; i < FSNApp.PartsList.Count; i++)
+                {
+                    if (partname.ToUpper() == FSNApp.PartsList.Items(i).Name.ToUpper())
+                    {
+                        dgvPartsComparison.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Green;
+                    }
+                    else
+                    {
+                        dgvPartsComparison.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    }
+                }
+
+                progressBar1.Value++;
+            }
+
+            FSNApp.ExecuteBatchCommand("PARTTILE");
+            FSNApp.ExecuteBatchCommand("AUTOSCALE");
+            FSNApp.ExecuteBatchCommand("RESETBATCHVAR");
+
+            MessageBox.Show("Podsumowanie:" + Environment.NewLine + Environment.NewLine + "Na podstawie " + (dgvPartsComparison.RowCount).ToString() + " wierszy z utworzonego widoku aplikacji zaimportowano " + FSNApp.PartsList.Count.ToString() + " części w SigmaNEST.");
         }
 
         private void dgvPartsComparison_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
