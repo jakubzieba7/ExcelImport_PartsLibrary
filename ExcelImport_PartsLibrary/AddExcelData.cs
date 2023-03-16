@@ -37,7 +37,6 @@ namespace SNPlugin
             Excel.Workbook excelWorkbook = excelApp.Workbooks.Open(excelFilePath);
             Excel.Worksheet excelWorksheet = excelWorkbook.Sheets[SelectedSheetListIndex() + 1];
 
-            
             dgvExcelData.DataSource = CreateExcelPartList(excelWorksheet);
 
             excelWorkbook.Close();
@@ -112,6 +111,10 @@ namespace SNPlugin
 
         private void btnLoadExcelFile_Click(object sender, EventArgs e)
         {
+            dgvPartsLibraryData.Columns[0].HeaderText = "L.p.";
+            dgvPartsLibraryData.Columns[1].HeaderText = "Nazwa części";
+            dgvPartsLibraryData.Columns[2].HeaderText = "Ilość";
+
             ExcelDataLoad(tbSelectedExcelPath.Text);
         }
 
@@ -177,6 +180,11 @@ namespace SNPlugin
 
         private void bLoadParts_Click(object sender, EventArgs e)
         {
+            // Set the column header names.
+            dgvPartsLibraryData.Columns[0].HeaderText = "L.p.";
+            dgvPartsLibraryData.Columns[1].HeaderText = "Nazwa części";
+            dgvPartsLibraryData.Columns[2].HeaderText = "Lokalizacja";
+
             dgvPartsLibraryData.DataSource = CreatePartsLibraryList();
         }
 

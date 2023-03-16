@@ -83,11 +83,7 @@ namespace SNPlugin
             dgvPartsComparison.ColumnHeadersDefaultCellStyle = columnHeaderStyle;
             dgvPartsComparison.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            //// Set the column header names.
-            //dgvPartsComparison.Columns[0].HeaderText = "L.p.";
-            //dgvPartsComparison.Columns[1].HeaderText = "Nazwa części";
-            //dgvPartsComparison.Columns[2].HeaderText = "Lokalizacja";
-            //dgvPartsComparison.Columns[3].HeaderText = "Ilość";
+            
 
             // Set the column and row resizing and alignment
             dgvPartsComparison.AutoResizeColumnHeadersHeight();
@@ -105,16 +101,6 @@ namespace SNPlugin
                 .ToList();
 
             return partsComparedList;
-        }
-
-        private void bDeletePart_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void bRefreshPartsList_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void bLoadPartsToSN_Click(object sender, EventArgs e)
@@ -165,7 +151,7 @@ namespace SNPlugin
             FSNApp.ExecuteBatchCommand("AUTOSCALE");
             FSNApp.ExecuteBatchCommand("RESETBATCHVAR");
 
-            MessageBox.Show("Podsumowanie:" + Environment.NewLine + Environment.NewLine + "Na podstawie " + (dgvPartsComparison.RowCount).ToString() + " wierszy z utworzonego widoku aplikacji zaimportowano " + FSNApp.PartsList.Count.ToString() + " części w SigmaNEST.");
+            MessageBox.Show("Na podstawie " + (dgvPartsComparison.RowCount).ToString() + " wierszy z utworzonego widoku aplikacji zaimportowano " + FSNApp.PartsList.Count.ToString() + " części w SigmaNEST.");
         }
 
         private void dgvPartsComparison_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
