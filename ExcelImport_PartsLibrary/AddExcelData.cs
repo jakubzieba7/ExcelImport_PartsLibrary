@@ -104,7 +104,7 @@ namespace SNPlugin
                     }
                 }
             }
-            //dgvExcelData.DataSource = dt;
+
             return partExcelList;
         }
 
