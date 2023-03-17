@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,10 +28,7 @@ namespace SNPlugin
         /// Initializes a new instance of the <see cref="frmExecute"/> class.
         /// </summary>
         /// <param name="ASNApp">The SN application.</param>
-        //public PartsComparison()
-        //{
-        //    InitializeComponent();
-        //}
+
         public PartsComparison(ISNApp ASNApp)
         {
             InitializeComponent();
@@ -83,8 +81,6 @@ namespace SNPlugin
             dgvPartsComparison.ColumnHeadersDefaultCellStyle = columnHeaderStyle;
             dgvPartsComparison.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            
-
             // Set the column and row resizing and alignment
             dgvPartsComparison.AutoResizeColumnHeadersHeight();
             dgvPartsComparison.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders);
@@ -97,7 +93,7 @@ namespace SNPlugin
         {
             int indexer = 1;
             newPartLibraryList = partsLibraryList.Where(x => partsExcelList.Any(y => y.Name == x.Name)).OrderBy(x => x.Name).Cast<PartLibrary>().ToList();
-            partsComparedList = newPartLibraryList.Join(partsExcelList, pL => pL.Name, pE => pE.Name, (pL, pE) => new { pL.Id, pL.Name, pL.Path, pE.Quantity }).Select(x => new PartsComparison(FSNApp) { Id = indexer++, PartName = x.Name, Path = x.Path, Quantity = x.Quantity })
+            partsComparedList = newPartLibraryList.Join(partsExcelList, pL => pL.Name, pE => pE.Name, (pL, pE) => new { pL.Id, pL.Name, pL.Path, pE.Quantity }).Select(x => new PartsComparison(FSNApp) { Id = indexer++, PartName = x.Name, Path = x.Path.Trim(), Quantity = x.Quantity })
                 .ToList();
 
             return partsComparedList;
@@ -120,17 +116,19 @@ namespace SNPlugin
                 FSNApp.ExecuteBatchCommand("SET,LOOKUP,MAT");
 
                 partname = dgvPartsComparison.Rows[rowIndex].Cells[1].Value.ToString();
-                quantity = dgvPartsComparison.Rows[rowIndex].Cells[2].Value.ToString();
-                filepath = dgvPartsComparison.Rows[rowIndex].Cells[3].Value.ToString();
+                filepath = dgvPartsComparison.Rows[rowIndex].Cells[2].Value.ToString();
+                quantity = dgvPartsComparison.Rows[rowIndex].Cells[3].Value.ToString();
 
-                string wol = "LOAD,PART," + quantity + "," + filepath ; 
+                string wol = ($@"LOAD,PART,{filepath},{quantity}").Trim();
                 
                 FSNApp.ExecuteBatchCommand(wol);
 
-                if (FSNApp.PartsList.Count == 0)
-                {
-                    dgvPartsComparison.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
-                }
+                File.AppendAllText(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "WOL.txt"), wol);
+
+                    if (FSNApp.PartsList.Count == 0)
+                    {
+                        dgvPartsComparison.Rows[rowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    }
 
                 for (int i = 0; i < FSNApp.PartsList.Count; i++)
                 {
@@ -151,7 +149,7 @@ namespace SNPlugin
             FSNApp.ExecuteBatchCommand("AUTOSCALE");
             FSNApp.ExecuteBatchCommand("RESETBATCHVAR");
 
-            MessageBox.Show("Na podstawie " + (dgvPartsComparison.RowCount).ToString() + " wierszy z utworzonego widoku aplikacji zaimportowano " + FSNApp.PartsList.Count.ToString() + " części w SigmaNEST.");
+            MessageBox.Show("Na podstawie " + (dgvPartsComparison.RowCount).ToString() + " wierszy z utworzonego widoku aplikacji zaimportowano " + FSNApp.PartsList.Count.ToString() + " części w SigmaNEST.", "Podsumowanie", MessageBoxButtons.OK);
         }
 
         private void dgvPartsComparison_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)

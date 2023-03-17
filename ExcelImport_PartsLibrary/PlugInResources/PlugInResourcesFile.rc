@@ -12,7 +12,7 @@
 // ** PLUGIN ICON ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 // ** THIS Resource can be inserted into the RES file to dictate the Icon for you PLUGIN
 // ** A	       B      "C"
-PlugInIcon PNG "PlugInICON.PNG"
+PlugInIcon PNG "ExcelPluginIcon.PNG"
 
 // ** DEFAULT INI FILE ----------------------------------------------------------------------------------------------------------------------------------------------------------
 // ** If you want to distribute your Plugin With a DEFAULT INI file define and add the ini file here

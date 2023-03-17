@@ -78,6 +78,8 @@
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.bLoadPartsToSN);
             this.Controls.Add(this.dgvPartsComparison);
+            this.MaximumSize = new System.Drawing.Size(663, 489);
+            this.MinimumSize = new System.Drawing.Size(663, 489);
             this.Name = "PartsComparison";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Lista części do importu";
