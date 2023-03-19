@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SigmaNEST;
 
@@ -38,6 +34,7 @@ namespace SNPlugin
         {
             InitializeComponent();
             InitializeDataGridView(partsLibraryList, partsExcelList);
+            CommaExist();
             FSNApp = ASNApp;
         }
 
@@ -177,6 +174,26 @@ namespace SNPlugin
                     row.DefaultCellStyle.BackColor = Color.Yellow;
                 }
             }
+        }
+
+        private void CommaExist()
+        {
+            List<string> incorrectInputList= new List<string>();
+
+            foreach (DataGridViewRow row in dgvPartsComparison.Rows)
+            {
+                bool incorrectPartName = row.Cells[1].Value.ToString().Contains(',');
+                bool incorrectPath = row.Cells[2].Value.ToString().Contains(',');
+
+                if (incorrectPartName || incorrectPath)
+                {
+                    incorrectInputList.Add("Część " + row.Cells[1].Value.ToString() + " nie zostanie zaimportowana z powodu przecinka znajdującego się w jej " + (incorrectPartName ? "nazwie." : "ścieżce zapisu."));
+                }
+            }
+
+            var message = string.Join(Environment.NewLine, incorrectInputList);
+
+            MessageBox.Show(message, "Niewłaściwa nazwa/ścieżka zapisu części", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
         }
     }
 }

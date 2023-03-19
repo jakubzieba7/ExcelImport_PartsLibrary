@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using SigmaNEST;
@@ -101,7 +98,7 @@ namespace SNPlugin
             using (StreamReader readerExcel = new StreamReader(_excelFilePath))
             using (StreamReader readerLibrary = new StreamReader(_libraryFilePath))
             {
-                tbSelectedExcelPath.Text = readerExcel.ReadToEnd().Trim();
+                tbSelectedExcelPath.Text = readerExcel.ReadToEnd();
                 tbSelectedPartsLibraryPath.Text = readerLibrary.ReadToEnd();
                 readerExcel.Close();
                 readerLibrary.Close();
@@ -312,10 +309,10 @@ namespace SNPlugin
 
         private void InitializeSheetList()
         {
-            if (!string.IsNullOrEmpty(tbSelectedExcelPath.Text))
+            if (!string.IsNullOrEmpty(tbSelectedExcelPath.Text) && File.Exists(tbSelectedExcelPath.Text))
             {
                 Excel.Application excelApp = new Excel.Application();
-                Excel.Workbook excelWorkbook = excelApp.Workbooks.Open(tbSelectedExcelPath.Text.Trim());
+                Excel.Workbook excelWorkbook = excelApp.Workbooks.Open(tbSelectedExcelPath.Text);
 
                 FillSheetsList(excelWorkbook);
 
@@ -351,5 +348,17 @@ namespace SNPlugin
             //excelWorkbook.Close();
             //excelApp.Quit();
         }
+
+        private void tbSelectedExcelPath_Enter(object sender, EventArgs e)
+        {
+            using (StreamWriter writerExcel = new StreamWriter(_excelFilePath))
+            {
+                writerExcel.Write(tbSelectedExcelPath.Text);
+                writerExcel.Close();
+            }
+
+            InitializeSheetList();
+        }
+
     }
 }

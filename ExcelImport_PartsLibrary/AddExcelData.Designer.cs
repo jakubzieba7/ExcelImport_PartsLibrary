@@ -90,6 +90,7 @@
             this.tbSelectedExcelPath.Name = "tbSelectedExcelPath";
             this.tbSelectedExcelPath.Size = new System.Drawing.Size(389, 20);
             this.tbSelectedExcelPath.TabIndex = 4;
+            this.tbSelectedExcelPath.Enter += new System.EventHandler(this.tbSelectedExcelPath_Enter);
             // 
             // label1
             // 

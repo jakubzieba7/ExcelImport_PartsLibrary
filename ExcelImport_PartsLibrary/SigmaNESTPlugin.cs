@@ -55,7 +55,7 @@ namespace ExcelImport_PartsLibrary
         {
             get
             {
-                return "Import Excel z Bazy Części";
+                return "Import excel z Bazy części";
             }
         }
 
@@ -67,7 +67,7 @@ namespace ExcelImport_PartsLibrary
         {
             get
             {
-                return "Plugin imports parts names from Excel, seeking for them in SN Part Library, imports to SN workspace and change their quantity.";
+                return "Plugin importuje dane części (nazwa, ilość) z Excel, wyszukuje wszystkie części SN ze wskazanego katalogu i jego podkatalogów, wyszukuje po nazwie te same pozycje i umożliwia ich import do SN.";
             }
         }
 
