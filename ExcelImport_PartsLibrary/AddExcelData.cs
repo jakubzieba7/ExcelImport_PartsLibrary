@@ -114,16 +114,26 @@ namespace SNPlugin
             Excel.Workbook excelWorkbook = excelApp.Workbooks.Open(excelFilePath);
             Excel.Worksheet excelWorksheet = excelWorkbook.Sheets[SelectedSheetListIndex() + 1];
 
-            dgvExcelData.DataSource = CreateExcelPartList(excelWorksheet);
-
-            excelWorkbook.Close();
-            excelApp.Quit();
+            try
+            {
+                dgvExcelData.DataSource = CreateExcelPartList(excelWorksheet);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Został wyrzucony błąd: " + ex.GetType() + " o treści: " + ex.Message+Environment.NewLine+"Popraw błędy i zaimportuj excel jeszcze raz.", "Znaleziono błąd w pliku excel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                excelWorkbook.Close();
+                excelApp.Quit();
+            }
 
         }
 
         private List<PartExcel> CreateExcelPartList(Excel.Worksheet excelWorksheet)
         {
             List<PartExcel> partExcelList = new List<PartExcel>();
+            List<string> missingExcelDataList = new List<string>();
 
             DataTable dt = new DataTable();
             Excel.Range firstFilledCell = null;
@@ -151,12 +161,12 @@ namespace SNPlugin
                 int firstFilledColumn = firstFilledCell.Column;
                 int rowIndexer = 0;
 
-                for (int i = firstFilledRow; i <= firstFilledRow + excelWorksheet.UsedRange.Rows.Count - 1; i++)
+                for (int i = firstFilledRow; i < firstFilledRow + excelWorksheet.UsedRange.Rows.Count; i++)
                 {
                     rowIndexer++;
                     DataRow row = dt.NewRow();
 
-                    for (int j = firstFilledColumn; j <= firstFilledColumn + excelWorksheet.UsedRange.Columns.Count - 1; j++)
+                    for (int j = firstFilledColumn; j < firstFilledColumn + excelWorksheet.UsedRange.Columns.Count; j++)
                     {
                         if (rowIndexer == 1)
                         {
@@ -172,17 +182,37 @@ namespace SNPlugin
                     {
                         dt.Rows.Add(row);
 
-                        var part = new PartExcel();
-                        part.Id = rowIndexer - 1;
-                        part.Name = excelWorksheet.Cells[i, firstFilledColumn].Value;
-                        //part.Quantity = int.TryParse(excelWorksheet.Cells[i, firstFilledColumn + 1].Value, out int quantity) == true ? Convert.ToInt32(excelWorksheet.Cells[i, firstFilledColumn + 1].Value) : quantity;
-                        part.Quantity = Convert.ToInt32(excelWorksheet.Cells[i, firstFilledColumn + 1].Value);
+                        var part = new PartExcel()
+                        {
+                            Id = rowIndexer - 1,
+                            Name = excelWorksheet.Cells[i, firstFilledColumn].Value,
+                            //Quantity = int.TryParse(excelWorksheet.Cells[i, firstFilledColumn + 1].Value.ToString(), out int quantity) ? Convert.ToInt32(excelWorksheet.Cells[i, firstFilledColumn + 1].Value) : quantity,
+                            Quantity = Convert.ToInt32(excelWorksheet.Cells[i, firstFilledColumn + 1].Value),       //better verion due to fill the empty columns
+                    };
+
                         partExcelList.Add(part);
+
+                        if (string.IsNullOrEmpty(part.Name) || string.IsNullOrEmpty(part.Quantity.ToString()) || part.Quantity == 0)
+                        {
+                            missingExcelDataList.Add("Brak wymaganych danych dla części o numerze " + part.Id);
+                        }
                     }
                 }
             }
 
+            MissingExcelDataInfo(missingExcelDataList);
+
             return partExcelList;
+        }
+
+        private void MissingExcelDataInfo(List<string> missingItems)
+        {
+            var message = string.Join(Environment.NewLine, missingItems);
+
+            if (missingItems.Count > 0)
+            {
+                MessageBox.Show(message + Environment.NewLine + "Popraw błędy przed kontunuowaniem.", "Brak danych części", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            }
         }
 
 
@@ -229,10 +259,19 @@ namespace SNPlugin
             Excel.Application excelApp = new Excel.Application();
             Excel.Workbook excelWorkbook = excelApp.Workbooks.Open(tbSelectedExcelPath.Text);
 
-            FillSheetsList(excelWorkbook);
-
-            excelWorkbook.Close();
-            excelApp.Quit();
+            try
+            {
+                FillSheetsList(excelWorkbook);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Został wyrzucony błąd: " + ex.GetType() + " o treści: " + ex.Message + Environment.NewLine + "Popraw błędy i zaimportuj excel jeszcze raz.", "Znaleziono błąd w pliku excel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                excelWorkbook.Close();
+                excelApp.Quit();
+            }
         }
 
         private void FillSheetsList(Excel.Workbook workbook)
@@ -253,10 +292,8 @@ namespace SNPlugin
             if (folder.ShowDialog() == DialogResult.OK)
             {
                 tbSelectedPartsLibraryPath.Text = folder.SelectedPath;
-                //tbSelectedPartsLibraryPath.Text = @"C:\Users\Public\Documents\SNDATA\PARTS";
             }
 
-            
             using (StreamWriter writerLibrary = File.CreateText(_libraryFilePath))
             {
                 writerLibrary.Write(tbSelectedPartsLibraryPath.Text);
@@ -328,25 +365,35 @@ namespace SNPlugin
 
             List<PartExcel> newExcelList = new List<PartExcel>();
 
-            foreach (DataGridViewRow row in dgvExcelData.Rows)
+            try
             {
-                PartExcel obj = new PartExcel()
+                foreach (DataGridViewRow row in dgvExcelData.Rows)
                 {
-                    Id = int.Parse(row.Cells[0].Value.ToString()),
-                    Name = row.Cells[1].Value.ToString(),
-                    Quantity = int.Parse(row.Cells[2].Value.ToString()),
-                };
+                    PartExcel obj = new PartExcel()
+                    {
+                        Id = int.Parse(row.Cells[0].Value.ToString()),
+                        Name = row.Cells[1].Value.ToString(),
+                        Quantity = int.Parse(row.Cells[2].Value.ToString()),
+                    };
 
-                newExcelList.Add(obj);
+                    newExcelList.Add(obj);
+                }
+
+
+                PartsComparison partsComparison = new PartsComparison(newExcelList, CreatePartsLibraryList(), FSNApp);
+                //PartsComparison partsComparison = new PartsComparison(CreateExcelPartList(excelWorksheet), CreatePartsLibraryList(), FSNApp);
+                partsComparison.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Został wyrzucony błąd: " + ex.GetType() + " o treści: " + ex.Message + Environment.NewLine + "Popraw błędy danych excel przed porównaniem części.", "Znaleziono błąd w pliku excel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                //excelWorkbook.Close();
+                //excelApp.Quit();
             }
 
-
-            PartsComparison partsComparison = new PartsComparison(newExcelList, CreatePartsLibraryList(), FSNApp);
-            //PartsComparison partsComparison = new PartsComparison(CreateExcelPartList(excelWorksheet), CreatePartsLibraryList(), FSNApp);
-            partsComparison.ShowDialog();
-
-            //excelWorkbook.Close();
-            //excelApp.Quit();
         }
 
         private void tbSelectedExcelPath_Enter(object sender, EventArgs e)

@@ -193,7 +193,10 @@ namespace SNPlugin
 
             var message = string.Join(Environment.NewLine, incorrectInputList);
 
-            MessageBox.Show(message, "Niewłaściwa nazwa/ścieżka zapisu części", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            if (incorrectInputList.Count > 0)
+            {
+                MessageBox.Show(message, "Niewłaściwa nazwa/ścieżka zapisu części", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            }
         }
     }
 }
