@@ -30,7 +30,7 @@ namespace SNPlugin
             InitializeComponent();
             FSNApp = ASNApp;
         }
-        public PartsComparison(List<PartExcel> partsExcelList, List<PartLibrary> partsLibraryList, ISNApp ASNApp)
+        public PartsComparison(ISNApp ASNApp, List<PartExcel> partsExcelList = default, List<PartLibrary> partsLibraryList = default)
         {
             InitializeComponent();
             InitializeDataGridView(partsLibraryList, partsExcelList);
@@ -89,7 +89,7 @@ namespace SNPlugin
         private List<PartsComparison> CreateComparedPartsList(List<PartLibrary> partsLibraryList, List<PartExcel> partsExcelList)
         {
             int indexer = 1;
-            newPartLibraryList = partsLibraryList.Where(x => partsExcelList.Any(y => y.Name == x.Name)).OrderBy(x => x.Name).Cast<PartLibrary>().ToList();
+            newPartLibraryList = partsLibraryList.Where(x => partsExcelList.Any(y => y.Name == x.Name)).OrderBy(x => x.Name).ToList();
             partsComparedList = newPartLibraryList.Join(partsExcelList, pL => pL.Name, pE => pE.Name, (pL, pE) => new { pL.Id, pL.Name, pL.Path, pE.Quantity }).Select(x => new PartsComparison(FSNApp) { Id = indexer++, PartName = x.Name, Path = x.Path.Trim(), Quantity = x.Quantity })
                 .ToList();
 
@@ -151,11 +151,6 @@ namespace SNPlugin
 
         private void dgvPartsComparison_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            //for (int i = 4; i < dgvPartsComparison.Columns.Count; i++)
-            //{
-            //    this.dgvPartsComparison.Columns[i].Visible = false;
-            //}
-
             foreach (DataGridViewRow row in dgvPartsComparison.Rows)
             {
                 string valueToCompare = row.Cells[1].Value.ToString();
@@ -197,6 +192,34 @@ namespace SNPlugin
             {
                 MessageBox.Show(message, "Niewłaściwa nazwa/ścieżka zapisu części", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
             }
+        }
+
+        private void btnDeleteRow_Click(object sender, EventArgs e)
+        {
+            List<PartsComparison> comparisonPartsListDel= new List<PartsComparison>();
+
+            if (dgvPartsComparison.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Proszę zaznacz część do usunięcia");
+                return;
+            }
+
+            var selectedPart = dgvPartsComparison.SelectedRows[0];
+
+            foreach (DataGridViewRow row in dgvPartsComparison.Rows)
+            {
+                PartsComparison obj = new PartsComparison(FSNApp)
+                {
+                    Id = int.Parse(row.Cells[0].Value.ToString()),
+                    PartName = row.Cells[1].Value.ToString(),
+                    Path= row.Cells[2].Value.ToString(),
+                    Quantity = int.Parse(row.Cells[3].Value.ToString()),
+                };
+
+                comparisonPartsListDel.Add(obj);
+            }
+
+            dgvPartsComparison.DataSource = comparisonPartsListDel.RemoveAll(x => x.Id == Convert.ToInt32(selectedPart.Cells[0].Value));
         }
     }
 }

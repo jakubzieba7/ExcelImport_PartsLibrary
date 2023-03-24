@@ -380,7 +380,7 @@ namespace SNPlugin
                 }
 
 
-                PartsComparison partsComparison = new PartsComparison(newExcelList, CreatePartsLibraryList(), FSNApp);
+                PartsComparison partsComparison = new PartsComparison(FSNApp, newExcelList, CreatePartsLibraryList());
                 //PartsComparison partsComparison = new PartsComparison(CreateExcelPartList(excelWorksheet), CreatePartsLibraryList(), FSNApp);
                 partsComparison.ShowDialog();
             }

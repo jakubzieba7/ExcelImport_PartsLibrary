@@ -31,6 +31,7 @@
             this.dgvPartsComparison = new System.Windows.Forms.DataGridView();
             this.bLoadPartsToSN = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.btnDeleteRow = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPartsComparison)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,6 +46,7 @@
             this.dgvPartsComparison.Location = new System.Drawing.Point(5, 74);
             this.dgvPartsComparison.Name = "dgvPartsComparison";
             this.dgvPartsComparison.RowHeadersVisible = false;
+            this.dgvPartsComparison.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPartsComparison.Size = new System.Drawing.Size(640, 374);
             this.dgvPartsComparison.TabIndex = 0;
             this.dgvPartsComparison.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvPartsComparison_DataBindingComplete);
@@ -69,12 +71,23 @@
             this.progressBar1.Size = new System.Drawing.Size(593, 10);
             this.progressBar1.TabIndex = 4;
             // 
+            // btnDeleteRow
+            // 
+            this.btnDeleteRow.Location = new System.Drawing.Point(155, 12);
+            this.btnDeleteRow.Name = "btnDeleteRow";
+            this.btnDeleteRow.Size = new System.Drawing.Size(90, 23);
+            this.btnDeleteRow.TabIndex = 5;
+            this.btnDeleteRow.Text = "Usuń część";
+            this.btnDeleteRow.UseVisualStyleBackColor = true;
+            this.btnDeleteRow.Click += new System.EventHandler(this.btnDeleteRow_Click);
+            // 
             // PartsComparison
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(647, 450);
+            this.Controls.Add(this.btnDeleteRow);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.bLoadPartsToSN);
             this.Controls.Add(this.dgvPartsComparison);
@@ -93,5 +106,6 @@
         private System.Windows.Forms.DataGridView dgvPartsComparison;
         private System.Windows.Forms.Button bLoadPartsToSN;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Button btnDeleteRow;
     }
 }
