@@ -187,8 +187,8 @@ namespace SNPlugin
                             Id = rowIndexer - 1,
                             Name = excelWorksheet.Cells[i, firstFilledColumn].Value,
                             //Quantity = int.TryParse(excelWorksheet.Cells[i, firstFilledColumn + 1].Value.ToString(), out int quantity) ? Convert.ToInt32(excelWorksheet.Cells[i, firstFilledColumn + 1].Value) : quantity,
-                            Quantity = Convert.ToInt32(excelWorksheet.Cells[i, firstFilledColumn + 1].Value),       //better verion due to fill the empty columns
-                    };
+                            Quantity = Convert.ToInt32(excelWorksheet.Cells[i, firstFilledColumn + 1].Value),       //better version due to filling the empty columns
+                        };
 
                         partExcelList.Add(part);
 
@@ -379,6 +379,7 @@ namespace SNPlugin
                     newExcelList.Add(obj);
                 }
 
+                CheckIfPartExistInPartLibrary(newExcelList);
 
                 PartsComparison partsComparison = new PartsComparison(FSNApp, newExcelList, CreatePartsLibraryList());
                 //PartsComparison partsComparison = new PartsComparison(CreateExcelPartList(excelWorksheet), CreatePartsLibraryList(), FSNApp);
@@ -393,7 +394,17 @@ namespace SNPlugin
                 //excelWorkbook.Close();
                 //excelApp.Quit();
             }
+        }
 
+        private void CheckIfPartExistInPartLibrary(List<PartExcel> excelList)
+        {
+            var missedExcelItemsList = excelList.Where(p => !CreatePartsLibraryList().Any(l => p.Name == l.Name)).Select(x => x.Name).ToList();
+            var message = string.Join(Environment.NewLine, missedExcelItemsList);
+
+            if (missedExcelItemsList.Count > 0)
+            {
+                MessageBox.Show("Brak następujących części w bazie części:" + Environment.NewLine + message, "Brak części w bazie części", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+            }
         }
 
         private void tbSelectedExcelPath_Enter(object sender, EventArgs e)

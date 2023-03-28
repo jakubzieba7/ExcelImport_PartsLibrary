@@ -30,7 +30,7 @@ namespace SNPlugin
             InitializeComponent();
             FSNApp = ASNApp;
         }
-        public PartsComparison(ISNApp ASNApp, List<PartExcel> partsExcelList = default, List<PartLibrary> partsLibraryList = default)
+        public PartsComparison(ISNApp ASNApp, List<PartExcel> partsExcelList, List<PartLibrary> partsLibraryList)
         {
             InitializeComponent();
             InitializeDataGridView(partsLibraryList, partsExcelList);
@@ -196,8 +196,6 @@ namespace SNPlugin
 
         private void btnDeleteRow_Click(object sender, EventArgs e)
         {
-            List<PartsComparison> comparisonPartsListDel= new List<PartsComparison>();
-
             if (dgvPartsComparison.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Proszę zaznacz część do usunięcia");
@@ -206,20 +204,27 @@ namespace SNPlugin
 
             var selectedPart = dgvPartsComparison.SelectedRows[0];
 
+            dgvPartsComparison.DataSource = GetListFromCurrentDataGridView().RemoveAll(x => x.Id == Convert.ToInt32(selectedPart.Cells[0].Value));
+        }
+
+        private List<PartsComparison> GetListFromCurrentDataGridView()
+        {
+            List<PartsComparison> comparisonPartsListDel = new List<PartsComparison>();
+
             foreach (DataGridViewRow row in dgvPartsComparison.Rows)
             {
                 PartsComparison obj = new PartsComparison(FSNApp)
                 {
-                    Id = int.Parse(row.Cells[0].Value.ToString()),
+                    Id = (int)row.Cells[0].Value,
                     PartName = row.Cells[1].Value.ToString(),
-                    Path= row.Cells[2].Value.ToString(),
-                    Quantity = int.Parse(row.Cells[3].Value.ToString()),
+                    Path = row.Cells[2].Value.ToString(),
+                    Quantity = (int)row.Cells[3].Value,
                 };
 
                 comparisonPartsListDel.Add(obj);
             }
 
-            dgvPartsComparison.DataSource = comparisonPartsListDel.RemoveAll(x => x.Id == Convert.ToInt32(selectedPart.Cells[0].Value));
+            return comparisonPartsListDel;
         }
     }
 }
