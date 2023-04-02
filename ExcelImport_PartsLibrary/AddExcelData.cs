@@ -241,8 +241,8 @@ namespace SNPlugin
                 FilterIndex = 1,
                 RestoreDirectory = true,
 
-                ReadOnlyChecked = false,
-                ShowReadOnly = true
+                //ReadOnlyChecked = false,
+                //ShowReadOnly = true
             };
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
